@@ -8,16 +8,22 @@ shift = 0
 right_wall= 550
 all_sprites = pygame.sprite.Group()
 goblin = Enemy('2.png',50,120)
+goblins = [Enemy('2.png',50,120)]
 all_sprites.add(goblin)
 
-knight = Player('knigth1.png', 0 ,0)
+knight = Player('knigth1.png', 0 ,490)
 walls = [
 Wall(0,200,500,5),
 Wall(500,100,300,5 ),
 Wall(0,400,400,5),
 Wall(500,300,400,5),
-Wall(0,500,1600,100,(0,0,0)),
-Wall(795,100,5,400)
+Wall(0,500,1000,100,(0,0,0)),
+Wall(795,100,5,400),
+Wall(1200, 500, 5, 400),
+Wall(1400,400,5,400),
+Wall(1450,300,5,400),
+Wall(1500,250,150,5),
+Wall(1450,150,100,5)
 ]
 all_sprites.add(knight)
 for wall in walls:
@@ -47,6 +53,8 @@ while run:
     all_sprites.draw(window)
     knight.draw(window)
     knight.update(walls)
+
+
 
         
 

@@ -27,22 +27,25 @@ class Player(Character):
     def update(self,walls):
         """Movimiento del jugador."""
         keys = pygame.key.get_pressed()
-
-        self.gravity() 
-        self.rect.y += self.speed_y
-
+        
+        
         if keys[pygame.K_LEFT] and self.rect.x > 0:
             self.rect.x -= self.speed
         if keys[pygame.K_RIGHT] and self.rect.x < 800 - 80:
             self.rect.x += self.speed
         walls_touched = pygame.sprite.spritecollide(self, walls, False) 
-        if self.speed < 0:
+        if keys[pygame.K_RIGHT]:
             for wall in walls_touched:
                 self.rect.right = min(self.rect.right, wall.rect.left) 
-        if self.speed > 0:
+        if keys[pygame.K_LEFT]:
             for wall in walls_touched:
-                self.rect.left = min(self.rect.left, wall.rect.right)
-        walls_touched = pygame.sprite.spritecollide(self, walls, False) 
+                self.rect.left = max(self.rect.left, wall.rect.right)
+        
+        self.gravity() 
+        self.rect.y += self.speed_y
+
+        walls_touched = pygame.sprite.spritecollide(self, walls, False)
+
         if self.speed_y > 0:
             for wall in walls_touched:
                 self.rect.bottom= wall.rect.top
