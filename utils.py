@@ -36,6 +36,13 @@ class Player(Character):
         if keys[pygame.K_RIGHT] and self.rect.x < 800 - 80:
             self.rect.x += self.speed
         walls_touched = pygame.sprite.spritecollide(self, walls, False) 
+        if self.speed < 0:
+            for wall in walls_touched:
+                self.rect.right = min(self.rect.right, wall.rect.left) 
+        if self.speed > 0:
+            for wall in walls_touched:
+                self.rect.left = min(self.rect.left, wall.rect.right)
+        walls_touched = pygame.sprite.spritecollide(self, walls, False) 
         if self.speed_y > 0:
             for wall in walls_touched:
                 self.rect.bottom= wall.rect.top
@@ -45,6 +52,11 @@ class Player(Character):
             for wall in walls_touched:
                 self.rect.top= wall.rect.bottom
                 self.speed_y = 0
+ 
+                
+        
+    
+        
                 
 class Wall(pygame.sprite.Sprite):
 
@@ -54,7 +66,8 @@ class Wall(pygame.sprite.Sprite):
         self.wally = wally
         self.wall_width = wall_width
         self.wall_height = wall_height
-        
+        super().__init__() 
+
         self.image = pygame.Surface([self.wall_width, self.wall_height])
         self.rect = self.image.get_rect()
         self.rect.x = wallx
@@ -62,3 +75,8 @@ class Wall(pygame.sprite.Sprite):
         self.image.fill(color_wall)
     def draw(self,window):
         pygame.draw.rect(window,self.color,(self.rect.x,self.rect.y,self.wall_width,self.wall_height)) 
+class Enemy(Character):
+    def update(self):
+        self.rect.x += self.speed
+        if self.rect.x >= 750 or  self.rect.x <=0 :
+            self.speed *= -1
