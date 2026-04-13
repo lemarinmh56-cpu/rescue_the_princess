@@ -4,7 +4,7 @@ class Character(pygame.sprite.Sprite):
     def __init__(self, c_image, x, y, speed=5, width = 80, height = 80):
         """Constructor de la clase Character."""
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.transform.scale(pygame.image.load(c_image), (80, 80))
+        self.image = pygame.transform.scale(pygame.image.load(c_image), (width, height))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -31,8 +31,10 @@ class Player(Character):
         
         if keys[pygame.K_LEFT] and self.rect.x > 0:
             self.rect.x -= self.speed
+            self.image = pygame.transform.scale(pygame.image.load('knight1.png') , (80, 80))
         if keys[pygame.K_RIGHT] and self.rect.x < 800 - 80:
             self.rect.x += self.speed
+            self.image = pygame.transform.scale(pygame.image.load('knight2.png') , (80, 80))
         walls_touched = pygame.sprite.spritecollide(self, walls, False) 
         if keys[pygame.K_RIGHT]:
             for wall in walls_touched:

@@ -1,4 +1,5 @@
-import pygame 
+import pygame
+from time import sleep 
 from utils import*
 bg_image = pygame.transform.scale(pygame.image.load('castle.jpg'), (800, 600))
 # Configuración de ventana
@@ -8,10 +9,13 @@ shift = 0
 right_wall= 550
 all_sprites = pygame.sprite.Group()
 goblin = Enemy('2.png',50,120)
-goblins = [Enemy('2.png',50,120)]
-all_sprites.add(goblin)
 
-knight = Player('knigth1.png', 0 ,490)
+all_sprites.add(goblin)
+win = Character('winner.png',0,0,width=800, height = 600)
+game_over = Character('game_over.png',0,0,width=800, height = 600)
+knight = Player('knight1.png', 0 ,490)
+princess = Character('princess.png',1400,70,width=50
+)
 walls = [
 Wall(0,200,500,5),
 Wall(500,100,300,5 ),
@@ -23,11 +27,13 @@ Wall(1200, 500, 5, 400),
 Wall(1400,400,5,400),
 Wall(1450,300,5,400),
 Wall(1500,250,150,5),
-Wall(1450,150,100,5)
+Wall(1400,150,100,5),
+Wall(1600,0,600,1000,(0,0,0))
 ]
 all_sprites.add(knight)
 for wall in walls:
     all_sprites.add(wall)
+all_sprites.add(princess)
 run = True
 # Reloj para controlar FPS
 clock = pygame.time.Clock()
@@ -53,6 +59,18 @@ while run:
     all_sprites.draw(window)
     knight.draw(window)
     knight.update(walls)
+
+    if knight.collide(goblin)or knight.rect.y >= 600:
+        game_over.draw(window)
+        pygame.display.update()
+        sleep(3)
+        break
+
+    if knight.collide(princess):
+        win.draw(window)
+        pygame.display.update()
+        sleep(3)
+        break
 
 
 
